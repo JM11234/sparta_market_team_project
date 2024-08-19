@@ -7,8 +7,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 # Create your views here.
 
 
-def index(request):
-    return render(request, "accounts/index.html")
+
 
 
 @require_http_methods(["GET", "POST"])
