@@ -3,6 +3,11 @@
 {% load humanize %}
 {% block content %}
 
+
+
+
+
+
     <form method="GET" action="{% url 'products:product_list' %}">
                     <input type="hidden" name="query" value="{{ request.GET.query }}">
 
