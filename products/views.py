@@ -12,7 +12,7 @@ import logging
 import logging
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Product, Hashtag
+from .models import Product, Hashtag, Search
 from .forms import ProductForm
 from django.shortcuts import render
 from django.db.models import Q
@@ -78,6 +78,21 @@ def product_detail(request, pk):
     }
     return render(request, "product_detail.html", context)
 
+
+#검색기능
+def search(request):
+    form = SearchForm()
+    results = []
+
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            results = Search.objects.filter(
+                Q(title__icontains=query) | Q(content__icontains=query)
+            )
+
+    return render(request, 'search_results.html', {'form': form, 'results': results})
 
 # 삭제
 @require_POST

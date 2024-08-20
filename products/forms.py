@@ -28,3 +28,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = "__all__"
         exclude = ("article", "user")
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(label='Search', max_length=100)

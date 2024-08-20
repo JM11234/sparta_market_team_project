@@ -1,0 +1,16 @@
+{% extends "base.html" %}        
+{% block content %}
+<form method="get">
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for article in results %}
+        <li>{{ article.title }} - {{ article.published_date }}</li>
+    {% empty %}
+        <li>No results found.</li>
+    {% endfor %}
+</ul>
+        
+{% endblock content %}
