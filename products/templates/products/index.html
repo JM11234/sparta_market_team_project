@@ -4,4 +4,20 @@
 
 {% block content %}
     <h1>상품목록 페이지</h1>
+    <a href = "{% url 'products:create' %}" >  상품등록
+    </a>
+    <ul>
+        {% for product in products %}
+        <a href="{% url 'products:product_detail' product.pk %}">
+        {% if product.main_image %}
+    <img src="{{ product.main_image.url }}" alt="{{ product.image }}" style="width : 100px;">
+        {% endif %}
+        <p>판매자 : {{ product.seller.username }}</p>
+        <p>>제목: {{product.name }}</p>
+        <h4>판매가격 : {{product.price }}</h4>
+        <h4>리뷰수 : {{ product.reviews.all | length }}</h4>
+        </a>
+        {% endfor %}
+        
+    </ul>
 {% endblock content %}

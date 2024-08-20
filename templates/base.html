@@ -7,8 +7,9 @@
 </head>
 <body>
     <div class = "navbar">
+        <a href="{% url "index" %}">홈으로가기</a>
         {% if request.user.is_authenticated %}
-        {{ request.user.username }}님
+        {{ request.user.username }}님 환영합니다
         <form action="{% url 'accounts:logout' %}" method="POST">
             {% csrf_token %}
             <input type = "submit" value = "로그아웃">
