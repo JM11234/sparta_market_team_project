@@ -21,5 +21,5 @@ urlpatterns = [
 
     path('liked/', views.liked_products, name='liked_products'), 
 
-    path('search/', views.search, name='search'),
+    path('search/', views.search, name='search'), #검색기능
 ]
