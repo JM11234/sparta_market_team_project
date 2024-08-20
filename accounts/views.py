@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import login as auth_login, logout as auth_logout, update_session_auth_hash
 from django.views.decorators.http import require_http_methods, require_POST
@@ -85,3 +86,25 @@ def change_password(request):
         "form": form,
     }
     return render(request, "accounts/change_password.html", context)
+
+
+@require_http_methods(["GET","POST"])
+def cash_charge(request):  ## 캐쉬 충전
+    if request.method == "POST":
+        cash = request.POST.get('cash')
+        if cash:
+            try:
+                cash_amount = int(cash)
+                if cash_amount > 0:
+                    request.user.cash += cash_amount
+                    request.user.save()
+                    messages.success(request, f'{cash_amount}원이 성공적으로 충전되었습니다.')
+                    return redirect('index')
+                else:
+                    messages.error(request, '충전금액은 0보다 커야 합니다.')
+            except ValueError:
+                messages.error(request, '옳바른 금액을 입력해주세요.')
+        else:
+            messages.error(request, '충전할 금액을 입력해주세요.')
+    return render(request, "accounts/cash_charge.html")
+                
