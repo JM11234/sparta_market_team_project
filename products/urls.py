@@ -19,5 +19,5 @@ urlpatterns = [
     ),
     path("<int:pk>/like/", views.like_product, name="like_product"),  # 찜 기능 URL
 
-    path('liked/', views.liked_products, name='liked_products'),
+    path('liked/', views.liked_products, name='liked_products'), # 검색기능
 ]
