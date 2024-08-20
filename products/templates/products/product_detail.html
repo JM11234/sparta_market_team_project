@@ -33,6 +33,16 @@
 <h4>리뷰 목록</h4>
 {% for product_review in product_reviews %}
 <p>작성자:{{ product_review.user }}
-내용:{{ product_review.comment }}      | 작성일자 : {{ product_review.created_at }}</p>
+내용:{{ product_review.comment }}      | 작성일자 : {{ product_review.created_at }}
+{% if request.user == product_review.user %}
+<form action="{% url 'products:review_delete' product_review.pk %}" method="POST">
+    {% csrf_token %}
+    <input type = "submit" value = "댓글삭제">
+{% endif %}
+</form>
+
+</p>
 {% endfor %}
+
+
 {% endblock content %}

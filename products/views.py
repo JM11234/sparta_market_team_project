@@ -63,6 +63,8 @@ def update(request, pk):  # 상품 수정
                }
     return render(request, "products/product_update.html", context)
 
+
+@require_POST
 def review_create(request, pk):  ## 해당상품 리뷰
     product = get_object_or_404(Product, id = pk)
     reviewer = request.user
@@ -74,3 +76,9 @@ def review_create(request, pk):  ## 해당상품 리뷰
         review.save()
         return redirect("products:product_detail", product.pk)
     
+
+def review_delete(request, pk):
+    review = get_object_or_404(Review, id=pk)
+    if request.user.is_authenticated:
+        review.delete()
+    return redirect('products:product_detail', review.product_id)
