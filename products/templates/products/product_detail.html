@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>상품 상세정보</h1>
+{% if product.seller == request.user %}
+<a href = "{% url 'products:product_update' product.pk  %}">상품수정</a>
+<form action="{% url 'products:product_delete' product.pk %}" method ="POST">  <!-- 상품삭제 -->
+    {% csrf_token %}
+    <button type="submit">상품 삭제</button>
+</form>
+{% endif %}
+{% if product.main_image %}
+<img src="{{product.main_image.url}}" alt="메인이미지">
+{% endif %}
+<p>판매자 : {{ product.seller.username }}</p>
+<h3>상품 이름 : {{ product.name }}</h3>
+<h4>상품 가격 : {{ product.price }}원</h4>
+<div>
+    상품 내용 : {{ product.description }}
+</div>
+
+
+<!-- 리뷰작성 -->
+<h3>리뷰작성</h3>
+{% if request.user.is_authenticated %}
+<form action="{% url 'products:review_create' product.pk %}"  method="POST">
+    {% csrf_token %}
+{{ review_form.as_p }}
+<button type = "submit">리뷰 남기기</button>
+</form>
+{% endif %}
+<h4>리뷰 목록</h4>
+{% for product_review in product_reviews %}
+<p>작성자:{{ product_review.user }}
+내용:{{ product_review.comment }}      | 작성일자 : {{ product_review.created_at }}
+{% if request.user == product_review.user %}
+<form action="{% url 'products:review_delete' product_review.pk %}" method="POST">
+    {% csrf_token %}
+    <input type = "submit" value = "댓글삭제">
+{% endif %}
+</form>
+
+</p>
+{% endfor %}
+
+
+{% endblock content %}

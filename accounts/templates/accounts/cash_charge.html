@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{% url 'accounts:cash_charge' %}" method="POST">
+    {% csrf_token %}
+    <label for ="cash">
+    <input type="text" id = "cash" name = "cash">
+    <button type = "submit">포인트 충전</button>
+
+</form>
+
+{% endblock content %}
